@@ -1,46 +1,66 @@
 import React, { useEffect, useState } from "react";
-import { DiceThree } from "phosphor-react";
-import { HowToPlay } from "./HowToPlay";
+import { DiceThree, Lock, LockOpen } from "phosphor-react";
 import _ from "lodash";
 import Confetti from "react-confetti";
 
 interface ChallengeCardProps {
-  players: any[];
-  skills: any[];
-  challenges: any[];
+  players: any;
+  skills: any;
+  challenges: any;
 }
 
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { players, skills, challenges } = props;
-  const tempRoundDescription = "How to play...";
+
+  const delayRate = (index) => {
+    const options = ["0", "500", "1000"];
+    return options[index];
+  };
+
+  const [playerLocked, setPlayerLocked] = useState(false);
+  const [challengeLocked, setChallengeLocked] = useState(false);
 
   const [party, setParty] = useState(false);
   const [skillaborators, setSkillaborators] = useState(null);
-  const [roundChallenge, setRoundChallenge] = useState(null);
-  const [roundSkill, setRoundSkill] = useState(null);
-  const [roundDescription, setRoundDescription] =
-    useState(tempRoundDescription);
+  const [roundChallenge, setRoundChallenge] = useState(
+    _.sampleSize(challenges, 1)
+  );
+  const [roundSkill, setRoundSkill] = useState(_.sampleSize(skills, 1));
+  const [roundDescription, setRoundDescription] = useState(null);
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    const randomChallenge = _.sampleSize(challenges, 1);
+    const randomSkill = _.sampleSize(skills, 1);
+    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+  }, []);
 
   const rollDice = () => {
     const randomPlayers = _.sampleSize(players, 3);
     const randomChallenge = _.sampleSize(challenges, 1);
     const randomSkill = _.sampleSize(skills, 1);
-
     setParty(true);
-    setSkillaborators(randomPlayers);
-    setRoundChallenge(randomChallenge);
-    setRoundSkill(randomSkill);
-    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+
+    if (playerLocked === false) {
+      setSkillaborators(randomPlayers);
+    }
+
+    if (challengeLocked === false) {
+      setRoundChallenge(randomChallenge);
+      setRoundSkill(randomSkill);
+      setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+    }
   };
 
   const resetRound = () => {
+    setChallengeLocked(false);
+    setPlayerLocked(false);
     setSkillaborators(null);
     setRoundChallenge(null);
     setRoundSkill(null);
-    setRoundDescription(tempRoundDescription);
-    setParty(false);
+
+    const randomChallenge = _.sampleSize(challenges, 1);
+    const randomSkill = _.sampleSize(skills, 1);
+    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
   };
 
   const runParty = () => {
@@ -59,56 +79,106 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
     );
   };
 
+  const RoundControls = ({ type, locked }: any) => {
+    return (
+      <div className="flex gap-4 flex-col justify-center">
+        <button
+          onClick={() => {
+            type === "player"
+              ? setPlayerLocked(!locked)
+              : setChallengeLocked(!locked);
+          }}
+          className="p-3 rounded-full cursor-pointer bg-white hover:bg-gray-200 ease-in-out duration-200"
+        >
+          {locked === true ? (
+            <Lock className="text-3xl" />
+          ) : (
+            <LockOpen className="text-3xl" />
+          )}
+        </button>
+      </div>
+    );
+  };
+
   return (
     <article>
       <header className="mb-5 flex gap-6 items-center">
         <h1 className="text-2xl font-bold">Skillaboration!</h1>
-        <button
-          disabled={party}
-          className={`${
-            party !== true ? "" : "animate-pulse cursor-not-allowed"
-          } flex gap-2 items-center text-lg px-4 py-2 cursor-pointer rounded-md bg-green-300 hover:bg-green-400 ease-in-out duration-200`}
-          onClick={() => party !== true && rollDice()}
-        >
-          <DiceThree
-            className={`${party !== true ? "" : "animate-spin"} text-2xl`}
-          />{" "}
-          <span>{party !== true ? "Roll" : "Rolling..."}</span>
-        </button>
+        <div className="flex gap-3 items-center">
+          <button
+            disabled={party}
+            className={`${
+              party !== true
+                ? "cursor-pointer px-5"
+                : "cursor-not-allowed animate-colors px-3"
+            } flex gap-2 border-neutral-950 border-2 items-center text-lg py-2 rounded-full bg-green-300 hover:bg-green-400 ease-in-out duration-200`}
+            onClick={() => party !== true && rollDice()}
+          >
+            <DiceThree
+              className={`${party !== true ? "" : "animate-spin"} text-3xl`}
+            />{" "}
+            {party !== true && <span>Roll to play</span>}
+          </button>
 
-        <button
-          className="flex gap-2 items-center text-lg px-4 py-2 cursor-pointer rounded-md bg-white hover:bg-gray-200 ease-in-out duration-200"
-          onClick={() => resetRound()}
-        >
-          <span>Reset</span>
-        </button>
+          {skillaborators?.length > 0 && (
+            <button
+              className="flex gap-2 items-center text-lg px-4 py-3 rounded-full cursor-pointer bg-white hover:bg-gray-200 ease-in-out duration-200"
+              onClick={() => resetRound()}
+            >
+              <span>Reset</span>
+            </button>
+          )}
+        </div>
       </header>
 
       <section>
-        {skillaborators?.length > 0 ? (
-          <>
-            {runParty()}
-            <header className="mb-5">
-              <h1 className="text-8xl font-bold">{roundDescription}</h1>
-            </header>
-            <b>Skillaborators:</b>
-            <ul>
-              {skillaborators?.map((p) => {
-                return <li key={p}>{p}</li>;
-              })}
-            </ul>
-          </>
-        ) : (
-          <>
-            <HowToPlay />
-            <b>Contestants:</b>
-            <ul>
-              {players.map((p) => {
-                return <li key={p}>{p}</li>;
-              })}
-            </ul>
-          </>
-        )}
+        <>
+          {runParty()}
+          <header className="mb-5 flex gap-3">
+            <RoundControls type="challenge" locked={challengeLocked} />
+            <h1 className="text-8xl font-bold">{roundDescription}</h1>
+          </header>
+
+          {skillaborators?.length > 0 && (
+            <div className="flex gap-3 mt-8">
+              <RoundControls type="player" locked={playerLocked} />
+
+              <div>
+                <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
+                <ul className="flex gap-4">
+                  {skillaborators?.map((p, index) => {
+                    return (
+                      <li key={p}>
+                        <article className="flex flex-col items-center justify-center">
+                          <div
+                            className={`
+                            animate-players 
+                            border-neutral-950 
+                            border-4 
+                            w-20 
+                            h-20 
+                            rounded-full 
+                            overflow-hidden
+                            transition
+                            duration-300
+                            delay-${delayRate(index)}`}
+                          >
+                            <img
+                              className="w-full h-full"
+                              src={`https://ui-avatars.com/api/?background=random&name=${p}`}
+                            />
+                          </div>
+                          {p}
+                          {/* <span>{`delay-[${(index + 1) * 2}000ms]`}</span> */}
+                        </article>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          )}
+        </>
       </section>
     </article>
   );

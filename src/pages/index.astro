@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { ChallengeCard } from "../components/ChallengeCard";
+import { HowToPlay } from "../components/HowToPlay";
 
 const players = [
   "Michael",
@@ -41,14 +42,18 @@ const challenges = [
 ---
 
 <Layout title="Skillaboration!">
-  <main class="p-10">
-    <section>
+  <main class="p-10 relative">
+    <section class="h-screen">
       <ChallengeCard
-        client:load
+        client:only
         players={players}
         skills={skills}
         challenges={challenges}
       />
+    </section>
+
+    <section class="flex justify-center items-center bg-purple-300 h-screen">
+      <HowToPlay />
     </section>
   </main>
 </Layout>
