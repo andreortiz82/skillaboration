@@ -1,59 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { DiceThree } from "phosphor-react";
 import _ from "lodash";
 
-const teammates = [
-  "Michael",
-  "Brandon",
-  "Michelle",
-  "Christina",
-  "Joann",
-  "Andre",
-  "Erik",
-  "Yvonne",
-  "Kylie",
-  "Beth",
-  "Nick",
-  "Todd",
-  "Julian",
-];
+interface ChallengeCardProps {
+  players: any[];
+  skill: any[];
+  challenge: any[];
+}
 
-const genre = [
-  "a UI",
-  "a lofi, UX workflow",
-  "a poster",
-  "a brand",
-  "a clickable front-end",
-  "a storyboard",
-  "an animatimation",
-];
+export const ChallengeCard = ({ players, skills, challenges }) => {
+  const [allPlayers, setAllPlayers] = useState(players);
+  const [allSkills, setAllSkills] = useState(skills);
+  const [allChallenges, setAllChallenges] = useState(challenges);
 
-const theme = [
-  "a music company, instrument, or artist",
-  "a retail store or travel agency",
-  "a restaurant or food item",
-  "animals or animal products",
-  "a technology company or digital product",
-  "a single person or group of people",
-  "an event in a specific location",
-];
+  const [skillaborators, setSkillaborators] = useState(null);
+  const [roundChallenge, setRoundChallenge] = useState(null);
+  const [roundSkill, setRoundSkill] = useState(null);
+  const [roundDescription, setRoundDescription] = useState(null);
 
-export const ChallengeCard = () => {
-  const [presenters, setPresenters] = React.useState([]);
-  const [project, setProject] = React.useState([]);
+  // useEffect(() => {}, []);
 
   const chooseNames = () => {
-    const team = _.sampleSize(teammates, 3);
-    const teamGenre = _.sampleSize(genre, 1);
-    const teamTheme = _.sampleSize(theme, 1);
-
-    const result = {
-      team: team,
-      project: `Design ${teamGenre} for ${teamTheme}`,
-    };
-
-    setPresenters(result.team);
-    setProject(result.project);
+    setSkillaborators(_.sampleSize(allPlayers, 3));
+    setRoundChallenge(_.sampleSize(allChallenges, 1));
+    setRoundSkill(_.sampleSize(allSkills, 1));
+    setRoundDescription(`Design ${roundSkill} for ${roundChallenge}`);
   };
 
   return (
@@ -69,14 +40,14 @@ export const ChallengeCard = () => {
       </header>
 
       <section className="mb-5">
-        {presenters.length > 0 && (
-          <h1 className="text-8xl font-bold">{project}</h1>
+        {skillaborators?.length > 0 && (
+          <h1 className="text-8xl font-bold">{roundDescription}</h1>
         )}
       </section>
       <section>
-        {presenters.length > 0 && <b>Skillaborators:</b>}
+        {skillaborators?.length > 0 && <b>Skillaborators:</b>}
         <ul>
-          {presenters.map((p) => {
+          {skillaborators?.map((p) => {
             return <li key={p}>{p}</li>;
           })}
         </ul>

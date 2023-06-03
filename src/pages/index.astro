@@ -1,12 +1,53 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { ChallengeCard } from "../components/ChallengeCard";
+
+const players = [
+  "Michael",
+  "Brandon",
+  "Michelle",
+  "Christina",
+  "Joann",
+  "Andre",
+  "Erik",
+  "Yvonne",
+  "Kylie",
+  "Beth",
+  "Nick",
+  "Todd",
+  "Julian",
+];
+
+const skills = [
+  "a UI",
+  "a lofi, UX workflow",
+  "a poster",
+  "a brand",
+  "a clickable front-end",
+  "a storyboard",
+  "an animatimation",
+];
+
+const challenges = [
+  "a music company, instrument, or artist",
+  "a retail store or travel agency",
+  "a restaurant or food item",
+  "animals or animal products",
+  "a technology company or digital product",
+  "a single person or group of people",
+  "an event in a specific location",
+];
 ---
 
 <Layout title="Skillaboration!">
   <main class="p-10">
     <section>
-      <ChallengeCard client:load />
+      <ChallengeCard
+        client:load
+        players={players}
+        skills={skills}
+        challenges={challenges}
+      />
     </section>
   </main>
 </Layout>
