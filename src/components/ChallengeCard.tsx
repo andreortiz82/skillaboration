@@ -1,30 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { DiceThree } from "phosphor-react";
-import _ from "lodash";
+import { HowToPlay } from "./HowToPlay";
+import _, { isNull } from "lodash";
 
 interface ChallengeCardProps {
   players: any[];
-  skill: any[];
-  challenge: any[];
+  skills: any[];
+  challenges: any[];
 }
 
-export const ChallengeCard = ({ players, skills, challenges }) => {
-  const [allPlayers, setAllPlayers] = useState(players);
-  const [allSkills, setAllSkills] = useState(skills);
-  const [allChallenges, setAllChallenges] = useState(challenges);
+export const ChallengeCard = (props: ChallengeCardProps) => {
+  const { players, skills, challenges } = props;
+  const tempRoundDescription = "How to play...";
 
   const [skillaborators, setSkillaborators] = useState(null);
   const [roundChallenge, setRoundChallenge] = useState(null);
   const [roundSkill, setRoundSkill] = useState(null);
-  const [roundDescription, setRoundDescription] = useState(null);
+  const [roundDescription, setRoundDescription] =
+    useState(tempRoundDescription);
 
   // useEffect(() => {}, []);
 
   const chooseNames = () => {
-    setSkillaborators(_.sampleSize(allPlayers, 3));
-    setRoundChallenge(_.sampleSize(allChallenges, 1));
-    setRoundSkill(_.sampleSize(allSkills, 1));
-    setRoundDescription(`Design ${roundSkill} for ${roundChallenge}`);
+    const randomPlayers = _.sampleSize(players, 3);
+    const randomChallenge = _.sampleSize(challenges, 1);
+    const randomSkill = _.sampleSize(skills, 1);
+
+    setSkillaborators(randomPlayers);
+    setRoundChallenge(randomChallenge);
+    setRoundSkill(randomSkill);
+    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+  };
+
+  const resetRound = () => {
+    setSkillaborators(null);
+    setRoundChallenge(null);
+    setRoundSkill(null);
+    setRoundDescription(tempRoundDescription);
   };
 
   return (
@@ -37,20 +49,39 @@ export const ChallengeCard = ({ players, skills, challenges }) => {
         >
           <DiceThree className="text-2xl" /> <span>Roll to play</span>
         </button>
+
+        <button
+          className="flex gap-2 items-center text-lg px-4 py-2 cursor-pointer rounded-md bg-white hover:bg-gray-200 ease-in-out duration-200"
+          onClick={() => resetRound()}
+        >
+          <span>Reset</span>
+        </button>
       </header>
 
-      <section className="mb-5">
-        {skillaborators?.length > 0 && (
-          <h1 className="text-8xl font-bold">{roundDescription}</h1>
-        )}
-      </section>
       <section>
-        {skillaborators?.length > 0 && <b>Skillaborators:</b>}
-        <ul>
-          {skillaborators?.map((p) => {
-            return <li key={p}>{p}</li>;
-          })}
-        </ul>
+        {skillaborators?.length > 0 ? (
+          <>
+            <header className="mb-5">
+              <h1 className="text-8xl font-bold">{roundDescription}</h1>
+            </header>
+            <b>Skillaborators:</b>
+            <ul>
+              {skillaborators?.map((p) => {
+                return <li key={p}>{p}</li>;
+              })}
+            </ul>
+          </>
+        ) : (
+          <>
+            <HowToPlay />
+            <b>Contestants:</b>
+            <ul>
+              {players.map((p) => {
+                return <li key={p}>{p}</li>;
+              })}
+            </ul>
+          </>
+        )}
       </section>
     </article>
   );
