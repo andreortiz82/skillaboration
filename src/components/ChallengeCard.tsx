@@ -108,8 +108,10 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
         width={window.innerWidth}
         run={party}
         height={window.innerHeight}
-        numberOfPieces={200}
+        numberOfPieces={100}
         recycle={false}
+        tweenDuration={2000}
+        gravity={2}
       />
     );
   };
