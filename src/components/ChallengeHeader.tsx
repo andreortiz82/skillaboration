@@ -16,7 +16,7 @@ export const ChallengeHeader = ({
             Skillaboration!
           </h1>
           <p className="md:whitespace-nowrap text-xl font-light">
-            Work together. Learn Together.
+            A collaboration game for creative teams.
           </p>
         </div>
         <div className="flex flex-col md:flex-row gap-3 items-center w-full">
