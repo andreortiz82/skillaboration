@@ -43,14 +43,16 @@ const challenges = [
 
 <Layout title="Skillaboration!">
   <main class="relative">
-    <section class="h-screen relative p-10 min-h-[680px]">
+    <section class="relative p-20 min-h-screen">
       <ChallengeCard client:only skills={skills} challenges={challenges} />
     </section>
 
     <section
-      class="flex justify-center items-center bg-black h-screen p-40 min-h-[680px]"
+      class="flex justify-center items-center bg-black p-40 min-h-screen"
     >
-      <HowToPlay />
+      <div class="w-11/12 m-auto">
+        <HowToPlay />
+      </div>
     </section>
   </main>
 </Layout>

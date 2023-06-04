@@ -33,28 +33,29 @@ export const HowToPlay = () => {
     <article id="howtoplay" className="text-white">
       <h1 className="text-7xl font-bold mb-3">How to play:</h1>
       <p className="text-2xl leading-relaxed text-neutral-300 font-light">
-        <i>Skillaboration!</i> requires at least &nbsp;
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold">
+          Skillaboration!&nbsp;
+        </span>{" "}
+        requires at least &nbsp;
         <code className="p-1 bg-green-300 text-black rounded-md">
           2-4 players
         </code>{" "}
         from various creative disciplines. The players will be given a design
         challenge and will have &nbsp;
         <code className="p-1 bg-green-300 text-black rounded-md">
-          8 working days
+          9 working days
         </code>{" "}
-        to complete the challenge and prepare a presentation for an audience.
-        The players are encouraged to seek help from anyone at any time. It is
-        also recommended that the players request feedback from a non-player at
-        the midway point. Remember, your time is limited so prioritize
-        accordingly. To successfully complete the challenge, the skillaborators
-        must work as team, learn new skills, and flex those creative muscles.
+        to complete the task and prepare a presentation. The players are
+        encouraged to seek help from anyone at any time. It is also recommended
+        that the players request feedback from a non-player at the midway point.
+        Remember, your time is limited so prioritize accordingly. To
+        successfully complete the challenge, the skillaborators must work as
+        team, learn new skills, and flex those creative muscles.
       </p>
       <hr className="my-10 border-neutral-700" />
       <div>
         <p className="text-2xl leading-relaxed text-neutral-300 font-light">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold">
-            Skillaboration!&nbsp;
-          </span>
+          <span className="italic">Skillaboration!&nbsp;</span>
           is a game designed to promote team building and personal growth. Be
           creative &amp; have fun!
         </p>

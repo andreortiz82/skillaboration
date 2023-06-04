@@ -11,8 +11,6 @@ interface ChallengeCardProps {
   challenges: any;
 }
 
-const room = uniqid();
-
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { skills, challenges } = props;
 
@@ -48,22 +46,30 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
   useEffect(() => {
     const randomChallenge = _.sampleSize(challenges, 1);
     const randomSkill = _.sampleSize(skills, 1);
-    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+    const urlParams = new URL(window.location).searchParams;
+    const urlPlayers = urlParams.get("players");
+    const urlSkillabs = urlParams.get("skillaborators");
+    const initPlayers: any = urlPlayers?.split(",");
+    const initSkillabs: any = urlSkillabs?.split(",");
 
-    url.searchParams.set("players", players.join(","));
-    window.history.replaceState(null, "", url.toString());
-    setGameUrl(url.toString());
+    if (initPlayers?.length > 0) setPlayers(initPlayers);
+    if (initSkillabs?.length > 0) setSkillaborators(initSkillabs);
+    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
   }, []);
 
   const rollDice = () => {
-    const randomPlayers: any = _.sampleSize(skillaborators, 3);
+    const randomPlayers: any = _.sampleSize(players, 3);
     const randomChallenge: any = _.sampleSize(challenges, 1);
     const randomSkill: any = _.sampleSize(skills, 1);
     setParty(true);
 
-    // if (playerLocked === false) {
-    //   setSkillaborators(randomPlayers);
-    // }
+    url.searchParams.set("skillaborators", randomPlayers.join(","));
+    window.history.replaceState(null, "", url.toString());
+    setGameUrl(url.toString());
+
+    if (playerLocked === false) {
+      setSkillaborators(randomPlayers);
+    }
 
     if (challengeLocked === false) {
       setRoundChallenge(randomChallenge);
@@ -74,10 +80,9 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
   const resetRound = () => {
     setChallengeLocked(false);
+    setParty(false);
     setPlayerLocked(false);
     setSkillaborators([]);
-    setRoundChallenge("");
-    setRoundSkill("");
 
     const randomChallenge = _.sampleSize(challenges, 1);
     const randomSkill = _.sampleSize(skills, 1);
@@ -102,13 +107,12 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
   return (
     <section>
-      <div>{gameUrl}</div>
       <ChallengeHeader
         party={party}
         rollDice={rollDice}
         skillaborators={skillaborators}
         resetRound={resetRound}
-        room={room}
+        room={gameUrl}
       />
       <article>
         <>
@@ -124,6 +128,7 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
             playerLocked={playerLocked}
             setPlayerLocked={setPlayerLocked}
             players={players}
+            skillaborators={skillaborators}
             party={party}
             addTeammate={addTeammate}
             delayRate={delayRate}

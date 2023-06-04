@@ -8,6 +8,7 @@ export const Players = ({
   party,
   addTeammate,
   delayRate,
+  skillaborators,
 }: any) => {
   return (
     <div className="flex gap-3 mt-8">
@@ -18,7 +19,7 @@ export const Players = ({
       />
       <div>
         <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
-        <ul className="flex gap-4">
+        <ul className="flex gap-4 flex-wrap">
           {players?.map((player: any, index: any) => {
             return (
               <li key={`${player}-${index}`}>
@@ -26,11 +27,15 @@ export const Players = ({
                   <div
                     className={`
                             ${delayRate(index)}
-                            ${party === true && `animate-players`} 
+                            ${
+                              skillaborators.includes(player)
+                                ? `animate-players`
+                                : ``
+                            }
                             border-neutral-950 
                             border-4 
-                            w-20 
-                            h-20 
+                            w-16 
+                            h-16 
                             rounded-full 
                             overflow-hidden
                             transition
@@ -39,7 +44,7 @@ export const Players = ({
                             justify-center
                             items-center`}
                   >
-                    <span className="uppercase text-2xl text-center">
+                    <span className="uppercase text-xl text-center">
                       {player.substring(0, 2)}
                     </span>
                   </div>

@@ -48,7 +48,7 @@ export const ChallengeHeader = ({
 
         <a
           onClick={() => {
-            navigator.clipboard.writeText(window.location.href);
+            navigator.clipboard.writeText(room);
           }}
           href={`#`}
         >
