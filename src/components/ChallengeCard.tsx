@@ -44,17 +44,22 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
   };
 
   useEffect(() => {
-    const randomChallenge = _.sampleSize(challenges, 1);
-    const randomSkill = _.sampleSize(skills, 1);
     const urlParams = new URL(window.location).searchParams;
     const urlPlayers = urlParams.get("players");
     const urlSkillabs = urlParams.get("skillaborators");
+    const urlChallenge = urlParams.get("challenge");
     const initPlayers: any = urlPlayers?.split(",");
     const initSkillabs: any = urlSkillabs?.split(",");
 
     if (initPlayers?.length > 0) setPlayers(initPlayers);
     if (initSkillabs?.length > 0) setSkillaborators(initSkillabs);
-    setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+    if (urlChallenge !== null) {
+      setRoundDescription(urlChallenge);
+    } else {
+      const randomChallenge = _.sampleSize(challenges, 1);
+      const randomSkill = _.sampleSize(skills, 1);
+      setRoundDescription(`Design ${randomSkill} for ${randomChallenge}`);
+    }
   }, []);
 
   const rollDice = () => {
@@ -64,6 +69,10 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
     setParty(true);
 
     url.searchParams.set("skillaborators", randomPlayers.join(","));
+    url.searchParams.set(
+      "challenge",
+      `Design ${randomSkill} for ${randomChallenge}`
+    );
     window.history.replaceState(null, "", url.toString());
     setGameUrl(url.toString());
 
