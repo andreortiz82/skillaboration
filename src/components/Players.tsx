@@ -21,7 +21,7 @@ export const Players = ({
 
       <div>
         <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
-        <ul className="flex gap-4 flex-wrap">
+        <ul className="flex gap-4 flex-wrap transition">
           {players?.map((player: any, index: any) => {
             return (
               <li key={`${player}-${index}`}>
