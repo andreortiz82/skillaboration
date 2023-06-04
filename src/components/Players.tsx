@@ -15,8 +15,10 @@ export const Players = ({
       <LockControl
         setPlayerLocked={setPlayerLocked}
         type="player"
+        disabled={skillaborators.length === 0 ? true : false}
         locked={playerLocked}
       />
+
       <div>
         <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
         <ul className="flex gap-4 flex-wrap">
@@ -63,8 +65,8 @@ export const Players = ({
                             border-neutral-300 
                             border-4 
                             border-dashed
-                            w-20 
-                            h-20 
+                            w-16 
+                            h-16 
                             rounded-full 
                             overflow-hidden
                             transition
