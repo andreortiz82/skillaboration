@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { DiceThree, Lock, LockOpen } from "phosphor-react";
 import _ from "lodash";
 import Confetti from "react-confetti";
+import { HowToPlayPrompt } from "./HowToPlay";
 
 interface ChallengeCardProps {
   players: any;
@@ -12,21 +13,20 @@ interface ChallengeCardProps {
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { players, skills, challenges } = props;
 
-  const delayRate = (index: any) => {
-    const options = ["delay-0", "delay-1000", "delay-0"];
-    return options[index];
-  };
-
   const [playerLocked, setPlayerLocked] = useState(false);
   const [challengeLocked, setChallengeLocked] = useState(false);
-
   const [party, setParty] = useState(false);
-  const [skillaborators, setSkillaborators] = useState(null);
+  const [skillaborators, setSkillaborators] = useState([]);
   const [roundChallenge, setRoundChallenge] = useState(
     _.sampleSize(challenges, 1)
   );
   const [roundSkill, setRoundSkill] = useState(_.sampleSize(skills, 1));
-  const [roundDescription, setRoundDescription] = useState(null);
+  const [roundDescription, setRoundDescription] = useState("");
+
+  const delayRate = (index: any) => {
+    const options = ["delay-0", "delay-1000", "delay-0"];
+    return options[index];
+  };
 
   useEffect(() => {
     const randomChallenge = _.sampleSize(challenges, 1);
@@ -35,9 +35,9 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
   }, []);
 
   const rollDice = () => {
-    const randomPlayers = _.sampleSize(players, 3);
-    const randomChallenge = _.sampleSize(challenges, 1);
-    const randomSkill = _.sampleSize(skills, 1);
+    const randomPlayers: any = _.sampleSize(players, 3);
+    const randomChallenge: any = _.sampleSize(challenges, 1);
+    const randomSkill: any = _.sampleSize(skills, 1);
     setParty(true);
 
     if (playerLocked === false) {
@@ -102,33 +102,38 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
   return (
     <article>
-      <header className="mb-5 flex gap-6 items-center">
-        <h1 className="text-2xl font-bold">Skillaboration!</h1>
-        <div className="flex gap-3 items-center">
-          <button
-            disabled={party}
-            className={`${
-              party !== true
-                ? "cursor-pointer px-5"
-                : "cursor-not-allowed animate-colors px-3"
-            } flex gap-2 border-neutral-950 border-2 items-center text-lg py-2 rounded-full bg-green-300 hover:bg-green-400 ease-in-out duration-200`}
-            onClick={() => party !== true && rollDice()}
-          >
-            <DiceThree
-              className={`${party !== true ? "" : "animate-spin"} text-3xl`}
-            />{" "}
-            {party !== true && <span>Roll to play</span>}
-          </button>
-
-          {skillaborators?.length > 0 && (
+      <header className="mb-5 flex justify-between">
+        <div className="flex gap-6 items-center">
+          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+            Skillaboration!
+          </h1>
+          <div className="flex gap-3 items-center">
             <button
-              className="flex gap-2 items-center text-lg px-4 py-3 rounded-full cursor-pointer bg-white hover:bg-gray-200 ease-in-out duration-200"
-              onClick={() => resetRound()}
+              disabled={party}
+              className={`${
+                party !== true
+                  ? "cursor-pointer px-5"
+                  : "cursor-not-allowed animate-colors px-3"
+              } flex gap-2 border-neutral-950 border-2 items-center text-lg py-2 rounded-full bg-green-300 hover:bg-green-400 ease-in-out duration-200`}
+              onClick={() => party !== true && rollDice()}
             >
-              <span>Reset</span>
+              <DiceThree
+                className={`${party !== true ? "" : "animate-spin"} text-3xl`}
+              />{" "}
+              {party !== true && <span>Roll to play</span>}
             </button>
-          )}
+
+            {skillaborators?.length > 0 && (
+              <button
+                className="flex gap-2 items-center text-lg px-4 py-3 rounded-full cursor-pointer bg-white hover:bg-gray-200 ease-in-out duration-200"
+                onClick={() => resetRound()}
+              >
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
         </div>
+        <HowToPlayPrompt />
       </header>
 
       <section>
@@ -145,9 +150,9 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
               <div>
                 <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
                 <ul className="flex gap-4">
-                  {skillaborators?.map((p, index) => {
+                  {skillaborators?.map((player: any, index) => {
                     return (
-                      <li key={p}>
+                      <li key={player}>
                         <article className="flex flex-col items-center justify-center">
                           <div
                             className={`
@@ -166,11 +171,10 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
                             items-center`}
                           >
                             <span className="uppercase text-2xl text-center">
-                              {p.substring(0, 2)}
+                              {player.substring(0, 2)}
                             </span>
                           </div>
-                          {p}
-                          {/* <span>{`delay-[${(index + 1) * 2}000ms]`}</span> */}
+                          {player}
                         </article>
                       </li>
                     );
