@@ -42,12 +42,12 @@ export const HowToPlay = () => {
         <code className="p-1 bg-green-300 text-black rounded-md">
           8 working days
         </code>{" "}
-        to complete the challenge and prepare a presentation for the team at
-        large. The team can request help from anyone at any time. It is also
-        recommended that the players request feedback from a non-player at the
-        midway point. Remember, your time is limited so prioritize accordingly.
-        To successfully complete the challenge, the skillaborators must work as
-        team, learn new skills, and flex those creative muscles.
+        to complete the challenge and prepare a presentation for an audience.
+        The players are encouraged to seek help from anyone at any time. It is
+        also recommended that the players request feedback from a non-player at
+        the midway point. Remember, your time is limited so prioritize
+        accordingly. To successfully complete the challenge, the skillaborators
+        must work as team, learn new skills, and flex those creative muscles.
       </p>
       <hr className="my-10 border-neutral-700" />
       <div>
@@ -55,9 +55,8 @@ export const HowToPlay = () => {
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold">
             Skillaboration!&nbsp;
           </span>
-          is a game designed to promote collaboration, learning, and knowledge
-          sharing. These challenges are designed to help encourage team building
-          and personal growth. Be creative &amp; have fun!
+          is a game designed to promote team building and personal growth. Be
+          creative &amp; have fun!
         </p>
       </div>
     </article>
