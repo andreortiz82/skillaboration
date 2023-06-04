@@ -135,6 +135,8 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
             setChallengeLocked={setChallengeLocked}
           />
 
+          <hr className="my-10" />
+
           <Players
             playerLocked={playerLocked}
             setPlayerLocked={setPlayerLocked}

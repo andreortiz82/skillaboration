@@ -31,7 +31,7 @@ export const HowToPlayPrompt = () => {
 export const HowToPlay = () => {
   return (
     <article id="howtoplay" className="text-white">
-      <h1 className="text-7xl font-bold mb-3">How to play:</h1>
+      <h1 className="text-6xl font-bold mb-3">How to play:</h1>
       <p className="text-2xl leading-relaxed text-neutral-300 font-light">
         <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 font-bold">
           Skillaboration!&nbsp;

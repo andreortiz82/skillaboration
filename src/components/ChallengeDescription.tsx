@@ -14,7 +14,9 @@ export const ChallengeDescription = ({
         type="challenge"
         locked={challengeLocked}
       />
-      <h1 className="flex text-8xl font-bold">{roundDescription}</h1>
+      <h1 className="flex text-6xl md:text-8xl font-bold">
+        {roundDescription}
+      </h1>
     </header>
   );
 };

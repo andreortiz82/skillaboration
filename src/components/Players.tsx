@@ -11,7 +11,7 @@ export const Players = ({
   skillaborators,
 }: any) => {
   return (
-    <div className="flex gap-3 mt-8">
+    <div className="flex gap-3">
       <LockControl
         setPlayerLocked={setPlayerLocked}
         type="player"
