@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { DiceThree, Lock, LockOpen } from "phosphor-react";
 import _ from "lodash";
+import uniqid from "uniqid";
 import Confetti from "react-confetti";
+import io from "socket.io-client";
 import { HowToPlayPrompt } from "./HowToPlay";
 
 interface ChallengeCardProps {
@@ -10,6 +12,8 @@ interface ChallengeCardProps {
   challenges: any;
 }
 
+const socket = io.connect("http://localhost:3001");
+const room = uniqid();
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { players, skills, challenges } = props;
 
@@ -104,9 +108,12 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
     <article>
       <header className="mb-5 flex justify-between">
         <div className="flex gap-6 items-center">
-          <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
-            Skillaboration!
-          </h1>
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+              Skillaboration!
+            </h1>
+            <p>Working together. Learning Together.</p>
+          </div>
           <div className="flex gap-3 items-center">
             <button
               disabled={party}
@@ -133,7 +140,10 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
             )}
           </div>
         </div>
-        <HowToPlayPrompt />
+        <div className="flex gap-6 items-center">
+          <HowToPlayPrompt />
+          <a href={`?skillab=${room}`}>Copy Invite URL</a>
+        </div>
       </header>
 
       <section>
