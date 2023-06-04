@@ -5,16 +5,12 @@ module.exports = {
     extend: {
       keyframes: {
         colors: {
-          "0%": { background: "rgb(239 68 68)" },
-          "10%": { background: "rgb(249 115 22)" },
-          "20%": { background: "rgb(250 204 21)" },
-          "30%": { background: "rgb(163 230 53)" },
-          "40%": { background: "rgb(74 222 128)" },
-          "50%": { background: "rgb(94 234 212)" },
-          "60%": { background: "rgb(34 211 238)" },
-          "70%": { background: "rgb(56 189 248)" },
-          "80%": { background: "rgb(129 140 248)" },
-          "100%": { background: "rgb(251 113 133)" },
+          "0%": { background: "var(--red)" },
+          "10%": { background: "var(--orange)" },
+          "30%": { background: "var(--yellow)" },
+          "60%": { background: "var(--green)" },
+          "80%": { background: "var(--blue)" },
+          "100%": { background: "var(--purple)" },
         },
         playerBounce: {
           from: {
@@ -26,8 +22,9 @@ module.exports = {
         },
       },
       animation: {
-        colors: "colors 2s ease-in-out infinite",
-        players: "playerBounce 200ms ease-in infinite alternate",
+        colors: "colors 2s ease-in-out infinite alternate",
+        players:
+          "playerBounce 200ms ease-in infinite alternate, colors 2s ease-in-out infinite",
       },
     },
   },

@@ -12,8 +12,8 @@ interface ChallengeCardProps {
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { players, skills, challenges } = props;
 
-  const delayRate = (index) => {
-    const options = ["0", "500", "1000"];
+  const delayRate = (index: any) => {
+    const options = ["delay-0", "delay-1000", "delay-0"];
     return options[index];
   };
 
@@ -136,13 +136,12 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
           {runParty()}
           <header className="mb-5 flex gap-3">
             <RoundControls type="challenge" locked={challengeLocked} />
-            <h1 className="text-8xl font-bold">{roundDescription}</h1>
+            <h1 className="flex text-8xl font-bold">{roundDescription}</h1>
           </header>
 
           {skillaborators?.length > 0 && (
             <div className="flex gap-3 mt-8">
               <RoundControls type="player" locked={playerLocked} />
-
               <div>
                 <h2 className="text-4xl font-bold mb-4">Skillaborators:</h2>
                 <ul className="flex gap-4">
@@ -152,6 +151,7 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
                         <article className="flex flex-col items-center justify-center">
                           <div
                             className={`
+                            ${delayRate(index)}
                             animate-players 
                             border-neutral-950 
                             border-4 
@@ -161,12 +161,13 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
                             overflow-hidden
                             transition
                             duration-300
-                            delay-${delayRate(index)}`}
+                            flex
+                            justify-center
+                            items-center`}
                           >
-                            <img
-                              className="w-full h-full"
-                              src={`https://ui-avatars.com/api/?background=random&name=${p}`}
-                            />
+                            <span className="uppercase text-2xl text-center">
+                              {p.substring(0, 2)}
+                            </span>
                           </div>
                           {p}
                           {/* <span>{`delay-[${(index + 1) * 2}000ms]`}</span> */}
