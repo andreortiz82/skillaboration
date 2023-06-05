@@ -111,7 +111,6 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
         numberOfPieces={100}
         recycle={false}
         tweenDuration={2000}
-        gravity={2}
       />
     );
   };

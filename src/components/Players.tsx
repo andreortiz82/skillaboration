@@ -20,7 +20,9 @@ export const Players = ({
       />
 
       <div>
-        <h2 className="text-3xl font-medium mb-4">Skillaborators:</h2>
+        <h2 className="font-lilita text-3xl font-medium mb-4">
+          Skillaborators:
+        </h2>
         <ul className="flex gap-4 flex-wrap transition">
           {players?.map((player: any, index: any) => {
             return (
