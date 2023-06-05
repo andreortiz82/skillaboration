@@ -33,7 +33,7 @@ export const ChallengeHeader = ({
               className={`${party !== true ? "" : "animate-spin"} text-3xl`}
             />{" "}
             {party !== true && (
-              <span className="whitespace-nowrap">Roll to play</span>
+              <span className="whitespace-nowrap font-bold">Roll to play</span>
             )}
           </button>
 
