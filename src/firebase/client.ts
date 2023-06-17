@@ -2,6 +2,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
+import { getDatabase, ref, set, get, child, onValue } from "firebase/database";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,6 +22,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const database = getDatabase();
 
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
@@ -57,5 +60,26 @@ export const userSignOut = (setCurrentUser:any) => {
   }).catch((error) => {
     // An error happened.
     setCurrentUser(null)
+  });
+}
+
+export const writeData = (path:string, data:any, callback:any) => {
+  const dbRef = ref(database, path);
+  set(dbRef, data);
+  getData(path, callback)
+  
+}
+
+export const getData = (path:string, callback:any) => {
+  const dbRef = ref(database);
+
+  get(child(dbRef, path)).then((snapshot) => {
+    if (snapshot.exists()) {
+      callback(snapshot.val())
+    } else {
+      callback("No data available")
+    }
+  }).catch((error) => {
+    callback(error);
   });
 }
