@@ -5,6 +5,7 @@ import Confetti from "react-confetti";
 import { ChallengeDescription } from "./ChallengeDescription";
 import { ChallengeHeader } from "./ChallengeHeader";
 import { Players } from "./Players";
+import { Login } from "./Login";
 
 interface ChallengeCardProps {
   skills: any;
@@ -13,7 +14,7 @@ interface ChallengeCardProps {
 
 export const ChallengeCard = (props: ChallengeCardProps) => {
   const { skills, challenges } = props;
-
+  const [currentUser, setCurrentUser] = useState(null);
   const [players, setPlayers] = useState([]);
   const [gameUrl, setGameUrl] = useState("");
   const [playerLocked, setPlayerLocked] = useState(false);
@@ -117,6 +118,8 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
   return (
     <section>
+      {JSON.stringify(currentUser)}
+      <Login setCurrentUser={setCurrentUser} />
       <ChallengeHeader
         party={party}
         rollDice={rollDice}

@@ -18,6 +18,8 @@
     "astro": "^2.5.7",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "firebase": "^9.22.2",
+    "firebase-admin": "^11.9.0",
     "lodash": "^4.17.21",
     "phosphor-react": "^1.4.1",
     "react": "^18.2.0",
