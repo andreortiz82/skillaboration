@@ -1,14 +1,8 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { GoogleAuthProvider, signInWithPopup, getAuth, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getAuth, signOut } from "firebase/auth";
 import { getDatabase, ref, set, get, child, onValue } from "firebase/database";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
   authDomain: import.meta.env.PUBLIC_AUTH_DOMAIN,
@@ -19,11 +13,9 @@ const firebaseConfig = {
   measurementId: import.meta.env.PUBLIC_MEASUREMENT_ID
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const database = getDatabase();
-
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
 
@@ -31,21 +23,14 @@ export const signInWithGoogle = (setCurrentUser:any) => {
   const auth = getAuth();
   signInWithPopup(auth, provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
-      // The signed-in user info.
       const user = result.user;
       setCurrentUser(user)
-      // IdP data available using getAdditionalUserInfo(result)
-      // ...
     }).catch((error) => {
-      // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
-      // The email of the user's account used.
       const email = error.customData.email;
-      // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
       setCurrentUser(null)
       // ...
@@ -56,10 +41,24 @@ export const userSignOut = (setCurrentUser:any) => {
   const auth = getAuth();
   signOut(auth).then(() => {
     setCurrentUser(null)
-    // Sign-out successful.
   }).catch((error) => {
-    // An error happened.
     setCurrentUser(null)
+  });
+}
+
+export const checkAuth = (setCurrentUser:any, callback:any) => {
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setCurrentUser(user)
+      callback(user)
+      console.log('checkAuth:')
+      console.log(user)
+      
+    } else {
+      setCurrentUser(null)
+      callback(null)
+    }
   });
 }
 

@@ -2,35 +2,14 @@
 import Layout from "../layouts/Layout.astro";
 import { ChallengeCard } from "../components/ChallengeCard";
 import { HowToPlay } from "../components/HowToPlay";
+import data from "../data/skills-challenges.json";
 
-const skills = [
-  "a UI",
-  "a lofi, UX workflow",
-  "a poster",
-  "a brand",
-  "a clickable front-end",
-  "a data visualization",
-  "an animation",
-  "a sticker set",
-];
-
-const challenges = [
-  "a music company, instrument, or artist",
-  "a retail store or travel agency",
-  "a restaurant or food item",
-  "a restaurant or food item",
-  "animals or animal products",
-  "a technology company or digital product",
-  "a single person or group of people",
-  "an event in a specific location",
-  "a wearable application",
-];
 ---
 
 <Layout title="Skillaboration!">
-  <main class="overflow-hidden">
-    <section class="relative p-8 min-h-screen">
-      <ChallengeCard client:only skills={skills} challenges={challenges} />
+  <main>
+    <section class="relative">
+      <ChallengeCard client:only skills={data["skills"]["general"]} challenges={data["challenges"]["general"]} />
     </section>
 
     <section

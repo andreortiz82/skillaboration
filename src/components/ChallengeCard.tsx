@@ -5,11 +5,11 @@ import Confetti from "react-confetti";
 import { ChallengeDescription } from "./ChallengeDescription";
 import { ChallengeHeader } from "./ChallengeHeader";
 import { Players } from "./Players";
-import { Login } from "./Login";
+import { checkAuth } from "../firebase/client";
 
 interface ChallengeCardProps {
-  skills: any;
-  challenges: any;
+  skills: string[];
+  challenges: string[];
 }
 
 export const ChallengeCard = (props: ChallengeCardProps) => {
@@ -45,6 +45,16 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
   };
 
   useEffect(() => {
+    checkAuth(setCurrentUser, (user: any) => {
+      if (user !== null) {
+        const tempPlayerSet: any = [...players, user["displayName"]];
+        setPlayers(tempPlayerSet);
+        url.searchParams.set("players", tempPlayerSet.join(","));
+        window.history.replaceState(null, "", url.toString());
+        setGameUrl(url.toString());
+      }
+    });
+
     const urlParams = new URL(window.location).searchParams;
     const urlPlayers = urlParams.get("players");
     const urlSkillabs = urlParams.get("skillaborators");
@@ -118,14 +128,14 @@ export const ChallengeCard = (props: ChallengeCardProps) => {
 
   return (
     <section>
-      {JSON.stringify(currentUser)}
-      <Login setCurrentUser={setCurrentUser} />
       <ChallengeHeader
         party={party}
         rollDice={rollDice}
         skillaborators={skillaborators}
         resetRound={resetRound}
         room={gameUrl}
+        setCurrentUser={setCurrentUser}
+        currentUser={currentUser}
       />
       <article>
         <>

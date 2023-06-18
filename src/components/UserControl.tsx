@@ -1,6 +1,8 @@
+import React from "react";
 import {
   signInWithGoogle,
   userSignOut,
+  checkAuth,
   writeData,
   getData,
 } from "../firebase/client";
@@ -11,14 +13,28 @@ const writeDataCallback = (data: any) => {
   console.log("----------- end");
 };
 
-export const Login = ({ setCurrentUser }: any) => {
+export const UserControl = ({ setCurrentUser, currentUser }: any) => {
+  // React.useEffect(() => {
+
+  // });
+  // checkAuth(setCurrentUser);
+
   return (
     <div>
-      <button onClick={() => signInWithGoogle(setCurrentUser)}>
-        Sign in with google
-      </button>
-      |<button onClick={() => userSignOut(setCurrentUser)}>Sign out</button>|
-      <button
+      {currentUser !== null ? (
+        <div>
+          <span>
+            <img src={currentUser.photoURL} />
+          </span>
+          <button onClick={() => userSignOut(setCurrentUser)}>Sign out</button>
+        </div>
+      ) : (
+        <button onClick={() => signInWithGoogle(setCurrentUser)}>
+          Sign in with google
+        </button>
+      )}
+
+      {/* <button
         onClick={() =>
           writeData(
             "skills",
@@ -35,7 +51,7 @@ export const Login = ({ setCurrentUser }: any) => {
         }
       >
         Get Data
-      </button>
+      </button> */}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { HowToPlayPrompt } from "./HowToPlay";
 import { DiceThree } from "phosphor-react";
+import { UserControl } from "./UserControl";
 
 export const ChallengeHeader = ({
   party,
@@ -7,6 +8,8 @@ export const ChallengeHeader = ({
   skillaborators,
   resetRound,
   room,
+  setCurrentUser,
+  currentUser,
 }: any) => {
   return (
     <header className="mb-5 flex flex-col md:flex-row justify-between">
@@ -45,6 +48,10 @@ export const ChallengeHeader = ({
         </div>
       </div>
       <div className="flex flex-wrap md:justify-end justify-center gap-6 items-center mt-5 md:mt-0">
+        <UserControl
+          setCurrentUser={setCurrentUser}
+          currentUser={currentUser}
+        />
         <HowToPlayPrompt />
 
         <a
