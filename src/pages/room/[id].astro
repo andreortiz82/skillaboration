@@ -1,0 +1,21 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { ChallengeCard } from "../../components/ChallengeCard";
+import { HowToPlay } from "../../components/HowToPlay";
+import data from "../../data/skills-challenges.json";
+
+export function getStaticPaths() {
+  return [
+    {params: {id: 'A'}},
+  ];
+}
+
+const { id } = Astro.params;
+
+---
+
+<Layout title={`Skillaboration!`}>
+  <main>
+    <div>Room ID: {id}</div>
+  </main>
+</Layout>

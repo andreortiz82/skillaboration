@@ -14,22 +14,23 @@ const writeDataCallback = (data: any) => {
 };
 
 export const UserControl = ({ setCurrentUser, currentUser }: any) => {
-  // React.useEffect(() => {
-
-  // });
-  // checkAuth(setCurrentUser);
-
   return (
     <div>
       {currentUser !== null ? (
-        <div>
-          <span>
-            <img src={currentUser.photoURL} />
-          </span>
+        <div className="flex items-center gap-2">
           <button onClick={() => userSignOut(setCurrentUser)}>Sign out</button>
+          <span>
+            <img
+              className="w-10 h-10 rounded-full"
+              src={currentUser.photoURL}
+            />
+          </span>
         </div>
       ) : (
-        <button onClick={() => signInWithGoogle(setCurrentUser)}>
+        <button
+          className="button"
+          onClick={() => signInWithGoogle(setCurrentUser)}
+        >
           Sign in with google
         </button>
       )}

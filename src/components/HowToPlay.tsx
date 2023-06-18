@@ -1,32 +1,7 @@
 import React from "react";
 
 export const HowToPlayPrompt = () => {
-  return (
-    <a
-      href="#howtoplay"
-      // style={{ top: "calc(-100vh + 400px)" }}
-      className="
-        cursor-pointer 
-        bg-white
-        border-neutral-200
-        border-2
-        text-neutral-800 
-        hover:border-neutral-950
-        px-6
-        py-3 
-        flex 
-        justify-center 
-        items-center 
-        text-center 
-        rounded-full
-        transition
-        text-md
-        font-medium
-        whitespace-nowrap"
-    >
-      How to play
-    </a>
-  );
+  return <a href="#howtoplay">How to play</a>;
 };
 
 export const HowToPlay = () => {

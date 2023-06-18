@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Lilita+One&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+  :root {
+    --red: rgb(239 68 68);
+    --orange: rgb(251 146 60);
+    --yellow: rgb(252 211 77);
+    --green: rgb(163 230 53);
+    --blue: rgb(34 211 238);
+    --purple: rgb(139 92 246);
+  }
+
+  .button {
+    @apply flex justify-center gap-2 items-center;
+    @apply rounded-full cursor-pointer whitespace-nowrap;
+    @apply px-4 py-1;
+    @apply border-neutral-950 border-2;
+    @apply bg-white hover:bg-gray-200 ease-in-out duration-200;
+  }
+
+  .button--roll {
+    @apply border-neutral-950 border-2 bg-green-300 hover:bg-green-400 ease-in-out duration-200;
+  }
+}
