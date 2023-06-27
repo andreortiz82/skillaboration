@@ -5,7 +5,7 @@ import _ from "lodash";
 export const createNewGame = (game:any, setGame:any, currentUser:any, setPlayers:any, players:any, callback:any) => {
   const newGameId = uniqid()
   const newPlayers = [currentUser.email, ...players]
-  const newGame = {...game, players: newPlayers, id: newGameId}
+  const newGame = {skill:game.skill, challenge:game.challenge, players: newPlayers, id: newGameId}
   setPlayers(newPlayers)
   setGame(newGame)
   postData(`games/${newGameId}`, {id:newGameId, players:newPlayers}, ()=>callback(newGame))
@@ -15,7 +15,7 @@ export const findGame = (gameId:any, user:any, callback:any) => {
   initializeGame(gameId, (data:any)=>{
     const newPlayers = [user.email, ...data.players]
     const uniquePlayers = [...new Set(newPlayers)];
-    const newGame = {...data, id:gameId, players: uniquePlayers}
+    const newGame = {skill:data.skill, challenge:data.challenge, id:gameId, players: uniquePlayers}
     postData(`games/${newGame.id}`, {id:newGame.id, players:uniquePlayers}, ()=> {
       callback(newGame);
     })

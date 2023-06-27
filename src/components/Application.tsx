@@ -18,13 +18,14 @@ export const Application = (props: any) => {
   const [game, setGame] = useState({ id: props.id });
 
   useEffect(() => {
+    newChallege(props, (skill: any, challenge: any) => {
+      setGame({ skill: skill, challenge: challenge, id: props.id });
+    });
+
     checkAuth((user: any) => {
       setCurrentUser(user);
 
       if (props.id === null) {
-        newChallege(props, (skill: any, challenge: any) => {
-          setGame({ skill: skill, challenge: challenge, id: props.id });
-        });
       } else {
         findGame(props.id, user, (gameData: any) => {
           console.log(gameData);
