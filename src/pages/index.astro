@@ -1,21 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { ChallengeCard } from "../components/ChallengeCard";
-import { HowToPlay } from "../components/HowToPlay";
+import { Application } from "../components/Application";
 import data from "../data/skills-challenges.json";
+
+const { id } = Astro.params;
 
 ---
 
 <Layout title="Skillaboration!">
-  <main>
-    <section>
-      <ChallengeCard client:only skills={data["skills"]["general"]} challenges={data["challenges"]["general"]} />
-    </section>
-
-    <section
-      class="flex justify-center items-center bg-black p-8 md:p-40 min-h-screen"
-    >
-      <HowToPlay />
-    </section>
-  </main>
+  <Application client:only data={data} id={id}/>
 </Layout>

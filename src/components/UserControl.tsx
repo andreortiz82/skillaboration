@@ -18,7 +18,12 @@ export const UserControl = ({ setCurrentUser, currentUser }: any) => {
     <div>
       {currentUser !== null ? (
         <div className="flex items-center gap-2">
-          <button onClick={() => userSignOut(setCurrentUser)}>Sign out</button>
+          <button
+            className="button"
+            onClick={() => userSignOut(setCurrentUser)}
+          >
+            Sign out
+          </button>
           <span>
             <img
               className="w-10 h-10 rounded-full"

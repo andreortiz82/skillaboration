@@ -1,7 +1,8 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getAuth, signOut } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, onAuthStateChanged, getAuth, signOut, initializeAuth } from "firebase/auth";
 import { getDatabase, ref, set, get, child, onValue } from "firebase/database";
+import uniqid from "uniqid";
 
 const firebaseConfig = {
   apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
@@ -46,35 +47,23 @@ export const userSignOut = (setCurrentUser:any) => {
   });
 }
 
-export const checkAuth = (setCurrentUser:any, callback:any) => {
+export const checkAuth = (callback:any) => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      setCurrentUser(user)
       callback(user)
-      console.log('checkAuth:')
-      console.log(user)
-      
     } else {
-      setCurrentUser(null)
       callback(null)
     }
   });
 }
 
-export const writeData = (path:string, data:any, callback:any) => {
-  const dbRef = ref(database, path);
-  set(dbRef, data);
-  getData(path, callback)
-  
-}
-
-export const getData = (path:string, callback:any) => {
+export const initializeGame = (gameId:any, callback:any) => {
   const dbRef = ref(database);
 
-  get(child(dbRef, path)).then((snapshot) => {
+  get(child(dbRef, `games/${gameId}`)).then((snapshot) => {
     if (snapshot.exists()) {
-      callback(snapshot.val())
+      callback(JSON.parse(snapshot.val()))
     } else {
       callback("No data available")
     }
@@ -82,3 +71,30 @@ export const getData = (path:string, callback:any) => {
     callback(error);
   });
 }
+
+export const postData = (path:string, data:any, callback:any) => {
+  const dbRef = ref(database, path);
+  set(dbRef, JSON.stringify(data));
+  callback()
+}
+
+export const getData = (path:string, callback:any) => {
+  const dbRef = ref(database);
+
+  get(child(dbRef, path)).then((snapshot) => {
+    if (snapshot.exists()) {
+      callback(JSON.parse(snapshot.val()))
+    } else {
+      callback("No data available")
+    }
+  }).catch((error) => {
+    callback(error);
+  });
+}
+
+export const createNewGame = (setGameId:any, currentUser:any, setPlayers:any, players:any, callback:any) => {
+  const gameId = uniqid()
+  setPlayers([currentUser.email, ...players])
+  setGameId(gameId)
+  postData(`games/${gameId}`, {id:gameId, players:[currentUser.email, ...players]}, ()=>callback(gameId, players))
+};

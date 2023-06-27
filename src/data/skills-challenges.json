@@ -1,27 +1,27 @@
 {
   "skills": {
     "general": [
-      "a UI",
-      "a lofi, UX workflow",
-      "a poster",
-      "a brand",
-      "a clickable front-end",
-      "a data visualization",
-      "an animation",
-      "a sticker set"
+      "Design a UI",
+      "Design a lofi, UX workflow",
+      "Design a poster",
+      "Design a brand",
+      "Design a clickable front-end",
+      "Design a data visualization",
+      "Design an animation",
+      "Design a sticker set"
     ]
   },
   "challenges": {
     "general": [
-      "a music company, instrument, or artist",
-      "a retail store or travel agency",
-      "a restaurant or food item",
-      "a restaurant or food item",
-      "animals or animal products",
-      "a technology company or digital product",
-      "a single person or group of people",
-      "an event in a specific location",
-      "a wearable application"
+      "for a music company, instrument, or artist",
+      "for a retail store or travel agency",
+      "for a restaurant or food item",
+      "for a restaurant or food item",
+      "for animals or animal products",
+      "for a technology company or digital product",
+      "for a single person or group of people",
+      "for an event in a specific location",
+      "for a wearable application"
     ]
   }
 }
