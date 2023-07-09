@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
 import {
   signInWithGoogle,
   userSignOut,
   checkAuthState,
   initializeGame,
 } from "../firebase/client";
+import { forIn, type forEach } from "lodash";
 
 export const GameBoard = (props: any) => {
   const [currentUser, setCurrentUser] = useState();
   const [players, setPlayers] = useState([]);
   const [game, setGame] = useState({ id: props.id });
   const url = new URL(window.location.href);
+  const challenges = props.data.challenages;
 
   useEffect(() => {
     checkAuthState((user: any) => {
@@ -51,7 +54,7 @@ export const GameBoard = (props: any) => {
         <hr />
       </header>
       <main>
-        <section className="p-5">{}</section>
+        <section className="p-5">{game.challenge}</section>
         <aside>
           <ul className="flex gap-9">
             {players.map((player: any) => (

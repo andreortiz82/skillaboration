@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
 import {
   signInWithGoogle,
   userSignOut,
@@ -11,6 +12,7 @@ export const App = (props: any) => {
   const [players, setPlayers] = useState([]);
   const [game, setGame] = useState({ id: props.id });
   const url = new URL(window.location.href);
+  const challenges = props.data.challenages;
 
   useEffect(() => {
     checkAuthState((user: any) => {
@@ -51,12 +53,17 @@ export const App = (props: any) => {
           <hr />
           <button
             onClick={() =>
-              createNewGame(game, currentUser, (game: any) => {
-                setGame(game);
-                const room = `${url.toString()}game/${game.id}`;
-                navigator.clipboard.writeText(room);
-                window.open(room, "_blank");
-              })
+              createNewGame(
+                game,
+                _.sampleSize(challenges, 1),
+                currentUser,
+                (game: any) => {
+                  setGame(game);
+                  const room = `${url.toString()}game/${game.id}`;
+                  navigator.clipboard.writeText(room);
+                  window.open(room, "_blank");
+                }
+              )
             }
           >
             Create Game

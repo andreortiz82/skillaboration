@@ -1,27 +1,32 @@
 {
-  "skills": {
-    "general": [
-      "Design a UI",
-      "Design a lofi, UX workflow",
-      "Design a poster",
-      "Dessign a brand",
-      "Design a clickable front-end",
-      "Design a data visualization",
-      "Design an animation",
-      "Design a sticker set"
-    ]
-  },
-  "challenges": {
-    "general": [
-      "for a music company, instrument, or artist",
-      "for a retail store or travel agency",
-      "for a restaurant or food item",
-      "for a restaurant or food item",
-      "for animals or animal products",
-      "for a technology company or digital product",
-      "for a single person or group of people",
-      "for an event in a specific location",
-      "for a wearable application"
-    ]
-  }
+  "challenages": [
+    "Design a print ad for music company, instrument, or artist",
+    "Design a landing page for a retail store",
+    "Design swag for a travel agency",
+    "Design a menu for a restaurant",
+    "Design a print ad for animals or animal products",
+    "Design a UI for a smart watch",
+    "Design a UI for a mixed reality experience",
+    "Design a landing page for a single person or group of people",
+    "Design swag for an event in a specific location",
+    "Design a UI for an map based mobile application",
+    "Prototype a UI for a music app",
+    "Prototype a landing page carousel for a retail store",
+    "Prototype a flight booking experience",
+    "Prototype a chatbot using a specific API",
+    "Prototype a photo gallery for animals or animal products",
+    "Prototype a UI for a smart watch",
+    "Prototype a UI for a mixed reality experience",
+    "Prototype a landing page for a single person or group of people",
+    "Prototype a UI for an map based mobile application",
+    "Write a blog post to fit the headline: 5 tips to build a health morning route",
+    "Write a tutorial to fit the headline: How to make a great cup of coffee",
+    "Animate a logo transition",
+    "Animate one or more UI icons",
+    "Animate a loading indicator",
+    "Create a jingle",
+    "Create an icon set",
+    "Create a mascot for a shoe company",
+    "Analyze US preferences for coffee VS tea"
+  ]
 }
