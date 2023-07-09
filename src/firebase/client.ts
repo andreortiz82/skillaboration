@@ -23,10 +23,16 @@ provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
 export const signInWithGoogle = (setCurrentUser:any) => {
   const auth = getAuth();
   signInWithPopup(auth, provider)
-    .then((result) => {
+    .then((result:any) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
-      const user = result.user;
+      const user = {
+        uid: result.uid,
+        displayName: result.displayName,
+        email: result.email,
+        photoURL: result.photoURL,
+        accessToken: result.accessToken,
+      }
       setCurrentUser(user)
     }).catch((error) => {
       const errorCode = error.code;
@@ -49,7 +55,15 @@ export const userSignOut = (setCurrentUser:any) => {
 
 export const checkAuthState = (callback:any) => {
   const auth = getAuth();
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, (data:any) => {
+    const user = {
+      uid: data.uid,
+      displayName: data.displayName,
+      email: data.email,
+      photoURL: data.photoURL,
+      accessToken: data.accessToken,
+    }
+
     if (user) {
       callback(user)
     } else {
@@ -58,19 +72,50 @@ export const checkAuthState = (callback:any) => {
   });
 }
 
+export const createNewGame = (game:any, currentUser:any, callback:any) => {
+
+  const author = {
+    uid: currentUser.uid,
+    displayName: currentUser.displayName,
+    email: currentUser.email,
+    photoURL: currentUser.photoURL,
+    author: true
+  }
+
+  const newGameObject = {
+    id: uniqid(),
+    name: game.name,
+    players: [author],
+    status: "waiting",
+    createdAt: new Date().toISOString(),
+    challenge: "CHALLENGE",
+    skill: "SKILL",
+  }
+  
+  postData(`games/${newGameObject.id}`, newGameObject, ()=>callback(newGameObject))
+};
+
 export const initializeGame = (gameId:any, currentUser:any, callback:any) => {
   const dbRef = ref(database);
 
   get(child(dbRef, `games/${gameId}`)).then((snapshot) => {
+
     if (snapshot.exists()) {
       const result = JSON.parse(snapshot.val())
-      const players = [...new Set([...result.players, currentUser.email])]
       
+      const playerExists = result.players.some((player:any) => player.email === currentUser.email);
+
+        if (!playerExists) {
+          result.players.push(currentUser);
+        }
+
       const newGameObject = {
         ...result,
-        status: result.players.length > 2 ? "ready" : "waiting",
-        players: players
+        status: result.players.length > 1 ? "ready" : "waiting",
       }
+
+      console.log('newGameObject', newGameObject)
+
       postData(`games/${gameId}`, newGameObject, ()=>callback(newGameObject))
 
     } else {
@@ -100,24 +145,3 @@ export const getData = (path:string, callback:any) => {
     callback(error);
   });
 }
-
-// export const createNewGame = (setGameId:any, currentUser:any, setPlayers:any, players:any, callback:any) => {
-//   const gameId = uniqid()
-//   setPlayers([currentUser.email, ...players])
-//   setGameId(gameId)
-//   postData(`games/${gameId}`, {id:gameId, players:[currentUser.email, ...players]}, ()=>callback(gameId, players))
-// };
-
-export const createNewGame = (game:any, currentUser:any, callback:any) => {
-  const nameGame = {
-    id: uniqid(),
-    name: game.name,
-    players: [currentUser.email],
-    status: "waiting",
-    createdAt: new Date().toISOString(),
-    challenge: "CHALLENGE",
-    skill: "SKILL",
-  }
-  
-  postData(`games/${nameGame.id}`, nameGame, ()=>callback(nameGame))
-};

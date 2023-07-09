@@ -18,6 +18,7 @@ export const GameBoard = (props: any) => {
 
       initializeGame(game.id, user, (data: any) => {
         setGame(data);
+        setPlayers(data.players);
       });
     });
   }, []);
@@ -50,7 +51,23 @@ export const GameBoard = (props: any) => {
         <hr />
       </header>
       <main>
-        <section className="p-5">{JSON.stringify(game)}</section>
+        <section className="p-5">{}</section>
+        <aside>
+          <ul className="flex gap-9">
+            {players.map((player: any) => (
+              <li key={player.uid} className="flex flex-col items-center">
+                <div>
+                  <img
+                    className="w-12 rounded-full"
+                    alt={player.email}
+                    src={player.photoURL}
+                  />
+                </div>
+                {player.displayName}
+              </li>
+            ))}
+          </ul>
+        </aside>
       </main>
       <footer className="p-5">
         <hr />
