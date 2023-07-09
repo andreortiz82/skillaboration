@@ -27,8 +27,7 @@ export const Application = (props: any) => {
 
       if (props.id === null) {
       } else {
-        findGame(props.id, user, (gameData: any) => {
-          console.log(gameData);
+        findGame(props.id, user, gameData, (gameData: any) => {
           setGame(gameData);
           setPlayers(gameData.players);
         });
@@ -69,6 +68,7 @@ export const Application = (props: any) => {
 
         <section className="p-5">
           <strong>{`${game.skill} ${game.challenge}`}</strong>
+
           <details>
             <summary>Skill / Challenge data</summary>
             {JSON.stringify(props.data)}

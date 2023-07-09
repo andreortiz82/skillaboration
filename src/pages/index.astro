@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Application } from "../components/Application";
+// import { Application } from "../components/Application";
+import { App } from "../components/App";
 import data from "../data/skills-challenges.json";
 
 const { id } = Astro.params;
@@ -8,5 +9,5 @@ const { id } = Astro.params;
 ---
 
 <Layout title="Skillaboration!">
-  <Application client:only data={data} id={id}/>
+  <App client:only data={data} id={id}/>
 </Layout>

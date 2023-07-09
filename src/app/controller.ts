@@ -8,15 +8,15 @@ export const createNewGame = (game:any, setGame:any, currentUser:any, setPlayers
   const newGame = {skill:game.skill, challenge:game.challenge, players: newPlayers, id: newGameId}
   setPlayers(newPlayers)
   setGame(newGame)
-  postData(`games/${newGameId}`, {id:newGameId, players:newPlayers}, ()=>callback(newGame))
+  postData(`games/${newGameId}`, {id:newGameId, players:newPlayers, skill:game.skill, challenge:game.challenge}, ()=>callback(newGame))
 };
 
-export const findGame = (gameId:any, user:any, callback:any) => {
+export const findGame = (gameId:any, user:any, gameData:any, callback:any) => {
   initializeGame(gameId, (data:any)=>{
     const newPlayers = [user.email, ...data.players]
     const uniquePlayers = [...new Set(newPlayers)];
     const newGame = {skill:data.skill, challenge:data.challenge, id:gameId, players: uniquePlayers}
-    postData(`games/${newGame.id}`, {id:newGame.id, players:uniquePlayers}, ()=> {
+    postData(`games/${newGame.id}`, {id:newGame.id, players:uniquePlayers, skill:gameData.skill, challenge:gameData.challenge}, ()=> {
       callback(newGame);
     })
   })
