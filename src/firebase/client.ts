@@ -47,7 +47,7 @@ export const userSignOut = (setCurrentUser:any) => {
   });
 }
 
-export const checkAuth = (callback:any) => {
+export const checkAuthState = (callback:any) => {
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -58,12 +58,21 @@ export const checkAuth = (callback:any) => {
   });
 }
 
-export const initializeGame = (gameId:any, callback:any) => {
+export const initializeGame = (gameId:any, currentUser:any, callback:any) => {
   const dbRef = ref(database);
 
   get(child(dbRef, `games/${gameId}`)).then((snapshot) => {
     if (snapshot.exists()) {
-      callback(JSON.parse(snapshot.val()))
+      const result = JSON.parse(snapshot.val())
+      const players = [...new Set([...result.players, currentUser.email])]
+      
+      const newGameObject = {
+        ...result,
+        status: result.players.length > 2 ? "ready" : "waiting",
+        players: players
+      }
+      postData(`games/${gameId}`, newGameObject, ()=>callback(newGameObject))
+
     } else {
       callback("No data available")
     }
@@ -92,9 +101,23 @@ export const getData = (path:string, callback:any) => {
   });
 }
 
-export const createNewGame = (setGameId:any, currentUser:any, setPlayers:any, players:any, callback:any) => {
-  const gameId = uniqid()
-  setPlayers([currentUser.email, ...players])
-  setGameId(gameId)
-  postData(`games/${gameId}`, {id:gameId, players:[currentUser.email, ...players]}, ()=>callback(gameId, players))
+// export const createNewGame = (setGameId:any, currentUser:any, setPlayers:any, players:any, callback:any) => {
+//   const gameId = uniqid()
+//   setPlayers([currentUser.email, ...players])
+//   setGameId(gameId)
+//   postData(`games/${gameId}`, {id:gameId, players:[currentUser.email, ...players]}, ()=>callback(gameId, players))
+// };
+
+export const createNewGame = (game:any, currentUser:any, callback:any) => {
+  const nameGame = {
+    id: uniqid(),
+    name: game.name,
+    players: [currentUser.email],
+    status: "waiting",
+    createdAt: new Date().toISOString(),
+    challenge: "CHALLENGE",
+    skill: "SKILL",
+  }
+  
+  postData(`games/${nameGame.id}`, nameGame, ()=>callback(nameGame))
 };

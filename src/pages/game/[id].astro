@@ -1,12 +1,12 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { Application } from "../../components/Application";
+import { GameBoard } from "../../components/GameBoard";
 import data from "../../data/skills-challenges.json";
 
 const { id } = Astro.params;
 
 ---
 
-<Layout title="Skillaboration!">
-  <Application client:only data={data} id={id}/>
+<Layout title={`Skillaboration! #${id}`}>
+  <GameBoard client:only data={data} id={id}/>
 </Layout>

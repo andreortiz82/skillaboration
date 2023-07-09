@@ -3,10 +3,10 @@ import {
   signInWithGoogle,
   userSignOut,
   checkAuthState,
-  createNewGame,
+  initializeGame,
 } from "../firebase/client";
 
-export const App = (props: any) => {
+export const GameBoard = (props: any) => {
   const [currentUser, setCurrentUser] = useState();
   const [players, setPlayers] = useState([]);
   const [game, setGame] = useState({ id: props.id });
@@ -15,6 +15,10 @@ export const App = (props: any) => {
   useEffect(() => {
     checkAuthState((user: any) => {
       setCurrentUser(user);
+
+      initializeGame(game.id, user, (data: any) => {
+        setGame(data);
+      });
     });
   }, []);
 
@@ -46,22 +50,7 @@ export const App = (props: any) => {
         <hr />
       </header>
       <main>
-        <section className="p-5">
-          {JSON.stringify(game)}
-          <hr />
-          <button
-            onClick={() =>
-              createNewGame(game, currentUser, (game: any) => {
-                setGame(game);
-                const room = `${url.toString()}game/${game.id}`;
-                navigator.clipboard.writeText(room);
-                window.open(room, "_blank");
-              })
-            }
-          >
-            Create Game
-          </button>
-        </section>
+        <section className="p-5">{JSON.stringify(game)}</section>
       </main>
       <footer className="p-5">
         <hr />
