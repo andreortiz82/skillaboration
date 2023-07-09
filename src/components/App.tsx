@@ -8,11 +8,13 @@ import {
 } from "../firebase/client";
 
 export const App = (props: any) => {
-  const [currentUser, setCurrentUser] = useState();
-  const [players, setPlayers] = useState([]);
-  const [game, setGame] = useState({ id: props.id });
-  const url = new URL(window.location.href);
   const challenges = props.data.challenages;
+  const [currentUser, setCurrentUser] = useState();
+  const [game, setGame] = useState({
+    id: props.id,
+    challenge: _.sampleSize(challenges, 1)[0],
+  });
+  const url = new URL(window.location.href);
 
   useEffect(() => {
     checkAuthState((user: any) => {
@@ -49,13 +51,25 @@ export const App = (props: any) => {
       </header>
       <main>
         <section className="p-5">
-          {JSON.stringify(game)}
+          <div>
+            <h1>{game.challenge}</h1>
+            <button
+              onClick={() => {
+                setGame({
+                  ...game,
+                  challenge: _.sampleSize(challenges, 1)[0],
+                });
+              }}
+            >
+              Re-roll
+            </button>
+          </div>
           <hr />
           <button
             onClick={() =>
               createNewGame(
                 game,
-                _.sampleSize(challenges, 1),
+                _.sampleSize(challenges, 1)[0],
                 currentUser,
                 (game: any) => {
                   setGame(game);

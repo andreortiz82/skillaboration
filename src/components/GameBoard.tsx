@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import _ from "lodash";
+import _, { update } from "lodash";
 import {
   signInWithGoogle,
   userSignOut,
   checkAuthState,
   initializeGame,
+  updateGame,
 } from "../firebase/client";
 import { forIn, type forEach } from "lodash";
 
@@ -54,7 +55,24 @@ export const GameBoard = (props: any) => {
         <hr />
       </header>
       <main>
-        <section className="p-5">{game.challenge}</section>
+        <section className="p-5">
+          <div className="flex gap-4">
+            <h1>{game.challenge}</h1>
+            <button
+              onClick={() => {
+                updateGame(
+                  game.id,
+                  _.sampleSize(challenges, 1)[0],
+                  (game: any) => {
+                    setGame(game);
+                  }
+                );
+              }}
+            >
+              Re-roll
+            </button>
+          </div>
+        </section>
         <aside>
           <ul className="flex gap-9">
             {players.map((player: any) => (

@@ -96,9 +96,7 @@ export const createNewGame = (game:any,challenge:any, currentUser:any, callback:
 
 export const initializeGame = (gameId:any, currentUser:any, callback:any) => {
   const dbRef = ref(database);
-
   get(child(dbRef, `games/${gameId}`)).then((snapshot) => {
-
     if (snapshot.exists()) {
       const result = JSON.parse(snapshot.val())
       
@@ -114,6 +112,27 @@ export const initializeGame = (gameId:any, currentUser:any, callback:any) => {
       }
 
       console.log('newGameObject', newGameObject)
+
+      postData(`games/${gameId}`, newGameObject, ()=>callback(newGameObject))
+
+    } else {
+      callback("No data available")
+    }
+  }).catch((error) => {
+    callback(error);
+  });
+}
+
+export const updateGame = (gameId:any, challenge:any, callback:any) => {
+  const dbRef = ref(database);
+  get(child(dbRef, `games/${gameId}`)).then((snapshot) => {
+    if (snapshot.exists()) {
+      const result = JSON.parse(snapshot.val())
+
+      const newGameObject = {
+        ...result,
+        challenge: challenge,
+      }
 
       postData(`games/${gameId}`, newGameObject, ()=>callback(newGameObject))
 
