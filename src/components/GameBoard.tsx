@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import _, { update } from "lodash";
+import _ from "lodash";
 import {
   signInWithGoogle,
   userSignOut,
   checkAuthState,
   initializeGame,
   updateGame,
+  createNewGame,
 } from "../firebase/client";
-import { forIn, type forEach } from "lodash";
+import { Header, CurrentChallenage } from "./Shared";
 
 export const GameBoard = (props: any) => {
   const [currentUser, setCurrentUser] = useState();
@@ -29,69 +30,44 @@ export const GameBoard = (props: any) => {
 
   return (
     <>
-      <header className="p-5">
-        <div className="flex gap-4">
-          <h1>Skillaboration</h1>
-          {currentUser ? (
-            <details>
-              <summary>{currentUser.displayName}</summary>
-              <p>ID: {currentUser.uid}</p>
-              <p>EMAIL: {currentUser.email}</p>
-              <p>DISPLAY_NAME: {currentUser.displayName}</p>
-              <p>PHOTO_URL: {currentUser.photoURL}</p>
-              <p className="break-words max-w-5xl">
-                ACCESS_TOKEN: {currentUser.accessToken}
-              </p>
-              <button onClick={() => userSignOut(setCurrentUser)}>
-                Sign out
-              </button>
-            </details>
-          ) : (
-            <button onClick={() => signInWithGoogle(setCurrentUser)}>
-              Sign in with google
-            </button>
-          )}
-        </div>
-        <hr />
-      </header>
+      <Header
+        signInWithGoogle={signInWithGoogle}
+        setCurrentUser={setCurrentUser}
+        currentUser={currentUser}
+        userSignOut={userSignOut}
+        url={url}
+        game={game}
+        challenages={challenges}
+        setGame={setGame}
+        createNewGame={createNewGame}
+      />
       <main>
-        <section className="p-5">
-          <div className="flex gap-4">
-            <h1>{game.challenge}</h1>
-            <button
-              onClick={() => {
-                updateGame(
-                  game.id,
-                  _.sampleSize(challenges, 1)[0],
-                  (game: any) => {
-                    setGame(game);
-                  }
-                );
-              }}
-            >
-              Re-roll
-            </button>
-          </div>
-        </section>
-        <aside>
+        <CurrentChallenage
+          updateGame={updateGame}
+          setGame={setGame}
+          game={game}
+          challenges={challenges}
+        />
+
+        <aside className="p-5">
           <ul className="flex gap-9">
-            {players.map((player: any) => (
-              <li key={player.uid} className="flex flex-col items-center">
-                <div>
-                  <img
-                    className="w-12 rounded-full"
-                    alt={player.email}
-                    src={player.photoURL}
-                  />
-                </div>
-                {player.displayName}
-              </li>
-            ))}
+            {players.length > 0 &&
+              players.map((player: any) => (
+                <li key={player.uid} className="flex flex-col items-center">
+                  <div className="bg-slate-100 p-5 flex flex-col items-center rounded-md">
+                    <img
+                      className="w-12 rounded-full"
+                      alt={player.email}
+                      src={player.photoURL}
+                    />
+                    {player.displayName}
+                  </div>
+                </li>
+              ))}
           </ul>
         </aside>
       </main>
       <footer className="p-5">
-        <hr />
         <p>Made with love.</p>
       </footer>
     </>

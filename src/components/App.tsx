@@ -6,6 +6,7 @@ import {
   checkAuthState,
   createNewGame,
 } from "../firebase/client";
+import { Header, CurrentChallenage } from "./Shared";
 
 export const App = (props: any) => {
   const challenges = props.data.challenages;
@@ -24,68 +25,32 @@ export const App = (props: any) => {
 
   return (
     <>
-      <header className="p-5">
-        <div className="flex gap-4">
-          <h1>Skillaboration</h1>
-          {currentUser ? (
-            <details>
-              <summary>{currentUser.displayName}</summary>
-              <p>ID: {currentUser.uid}</p>
-              <p>EMAIL: {currentUser.email}</p>
-              <p>DISPLAY_NAME: {currentUser.displayName}</p>
-              <p>PHOTO_URL: {currentUser.photoURL}</p>
-              <p className="break-words max-w-5xl">
-                ACCESS_TOKEN: {currentUser.accessToken}
-              </p>
-              <button onClick={() => userSignOut(setCurrentUser)}>
-                Sign out
-              </button>
-            </details>
-          ) : (
-            <button onClick={() => signInWithGoogle(setCurrentUser)}>
-              Sign in with google
-            </button>
-          )}
-        </div>
-        <hr />
-      </header>
+      <Header
+        signInWithGoogle={signInWithGoogle}
+        setCurrentUser={setCurrentUser}
+        currentUser={currentUser}
+        createNewGame={createNewGame}
+        userSignOut={userSignOut}
+        url={url}
+        game={game}
+        challenages={challenges}
+        setGame={setGame}
+      />
+
       <main>
-        <section className="p-5">
-          <div>
-            <h1>{game.challenge}</h1>
-            <button
-              onClick={() => {
-                setGame({
-                  ...game,
-                  challenge: _.sampleSize(challenges, 1)[0],
-                });
-              }}
-            >
-              Re-roll
-            </button>
-          </div>
-          <hr />
-          <button
-            onClick={() =>
-              createNewGame(
-                game,
-                _.sampleSize(challenges, 1)[0],
-                currentUser,
-                (game: any) => {
-                  setGame(game);
-                  const room = `${url.toString()}game/${game.id}`;
-                  navigator.clipboard.writeText(room);
-                  window.open(room, "_blank");
-                }
-              )
-            }
-          >
-            Create Game
-          </button>
-        </section>
+        <CurrentChallenage
+          updateGame={() => {
+            setGame({
+              ...game,
+              challenge: _.sampleSize(challenges, 1)[0],
+            });
+          }}
+          setGame={setGame}
+          game={game}
+          challenges={challenges}
+        />
       </main>
       <footer className="p-5">
-        <hr />
         <p>Made with love.</p>
       </footer>
     </>

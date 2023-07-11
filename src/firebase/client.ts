@@ -72,7 +72,7 @@ export const checkAuthState = (callback:any) => {
   });
 }
 
-export const createNewGame = (game:any,challenge:any, currentUser:any, callback:any) => {
+export const createNewGame = (game:any, challenge:any, currentUser:any, callback:any) => {
 
   const author = {
     uid: currentUser.uid,
