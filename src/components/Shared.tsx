@@ -23,17 +23,13 @@ export const Header = ({
             <button
               className="btn"
               onClick={() =>
-                createNewGame(
-                  game,
-                  _.sampleSize(challenges, 1)[0],
-                  currentUser,
-                  (game: any) => {
-                    setGame(game);
-                    const room = `${url.toString()}game/${game.id}`;
-                    navigator.clipboard.writeText(room);
-                    window.open(room, "_blank");
-                  }
-                )
+                createNewGame(game, challenges, currentUser, (game: any) => {
+                  console.log("createNewGame", game);
+                  setGame(game);
+                  const room = `${url.toString()}game/${game.id}`;
+                  navigator.clipboard.writeText(room);
+                  window.open(room, "_blank");
+                })
               }
             >
               Create New Game
@@ -81,6 +77,7 @@ export const CurrentChallenage = ({
                 game.id,
                 _.sampleSize(challenges, 1)[0],
                 (game: any) => {
+                  console.log("updateGame", game);
                   setGame(game);
                 }
               );

@@ -60,7 +60,7 @@ export const GameBoard = (props: any) => {
                       alt={player.email}
                       src={player.photoURL}
                     />
-                    {player.displayName}
+                    {player.email}
                   </div>
                 </li>
               ))}
@@ -69,6 +69,7 @@ export const GameBoard = (props: any) => {
       </main>
       <footer className="p-5">
         <p>Made with love.</p>
+        {JSON.stringify(game)}
       </footer>
     </>
   );
