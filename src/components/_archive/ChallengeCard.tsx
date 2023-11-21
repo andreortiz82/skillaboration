@@ -5,7 +5,7 @@ import Confetti from "react-confetti";
 import { ChallengeDescription } from "./ChallengeDescription";
 import { ChallengeHeader } from "./ChallengeHeader";
 import { Players } from "./Players";
-import { checkAuth } from "../firebase/client";
+// import { checkAuth } from "../firebase/client";
 
 interface ChallengeCardProps {
   skills: string[];

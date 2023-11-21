@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  signInWithGoogle,
-  userSignOut,
-  checkAuth,
-  writeData,
-  getData,
-} from "../firebase/client";
+import { signInWithGoogle, userSignOut, getData } from "../../firebase/client";
 
 const writeDataCallback = (data: any) => {
   console.log("----------- start");

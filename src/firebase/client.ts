@@ -72,8 +72,9 @@ export const checkAuthState = (callback:any) => {
   });
 }
 
-export const createNewGame = (game:any, challenge:any, currentUser:any, callback:any) => {
-
+export const createNewGame = (props:any) => {
+  const { game, currentUser, callback } = props;
+  
   const author = {
     uid: currentUser.uid,
     displayName: currentUser.displayName,
@@ -84,11 +85,10 @@ export const createNewGame = (game:any, challenge:any, currentUser:any, callback
 
   const newGameObject = {
     id: uniqid(),
-    name: game.name,
     players: [author],
     status: "waiting",
     createdAt: new Date().toISOString(),
-    challenge: challenge,
+    challenge: game.challenge,
   }
   
   postData(`games/${newGameObject.id}`, newGameObject, ()=>callback(newGameObject))

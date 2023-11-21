@@ -1,18 +1,22 @@
 import _ from "lodash";
 
+interface HeaderProps {
+  currentUser: any;
+  setCurrentUser: any;
+  userSignOut: (setCurrentUser: any) => void;
+  userSignIn: (setCurrentUser: any) => void;
+  createGame?: () => void;
+}
+
 export const Header = ({
   currentUser,
   userSignOut,
-  signInWithGoogle,
+  userSignIn,
+  createGame,
   setCurrentUser,
-  createNewGame,
-  challenges,
-  setGame,
-  game,
-  url,
-}: any) => {
+}: HeaderProps) => {
   return (
-    <header className="p-5">
+    <header>
       <div className="flex gap-4 justify-between">
         <h1 className="text-lg font-bold">
           <a href="/">Skillaboration</a>
@@ -20,19 +24,8 @@ export const Header = ({
 
         {currentUser ? (
           <div className="flex gap-4">
-            <button
-              className="btn"
-              onClick={() =>
-                createNewGame(game, challenges, currentUser, (game: any) => {
-                  console.log("createNewGame", game);
-                  setGame(game);
-                  const room = `${url.toString()}game/${game.id}`;
-                  navigator.clipboard.writeText(room);
-                  window.open(room, "_blank");
-                })
-              }
-            >
-              Create New Game
+            <button className="btn" onClick={createGame}>
+              New Game
             </button>
             <img
               className="w-8 rounded-full"
@@ -47,10 +40,7 @@ export const Header = ({
             </button>
           </div>
         ) : (
-          <button
-            className="btn"
-            onClick={() => signInWithGoogle(setCurrentUser)}
-          >
+          <button className="btn" onClick={() => userSignIn(setCurrentUser)}>
             Sign in with google
           </button>
         )}
