@@ -8,7 +8,7 @@ import {
   updateGame,
   createNewGame,
 } from "../firebase/client";
-import { Header } from "./Shared";
+import { Header, CurrentChallenage } from "./Shared";
 
 export const GameBoard = (props: any) => {
   const [currentUser, setCurrentUser] = useState("");
@@ -48,6 +48,9 @@ export const GameBoard = (props: any) => {
         }}
       />
       <h1 className="text-8xl font-bold my-20">{game.challenge}</h1>
+
+      <CurrentChallenage game={game} updateGame={updateGame} />
+
       <aside className="p-5">
         <ul className="flex gap-9">
           {players.length > 0 &&

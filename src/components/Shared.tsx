@@ -49,30 +49,13 @@ export const Header = ({
   );
 };
 
-export const CurrentChallenage = ({
-  updateGame,
-  setGame,
-  game,
-  challenges,
-}: any) => {
+export const CurrentChallenage = ({ updateGame, game }: any) => {
   return (
-    <section className="p-5">
+    <section>
       <div className="flex flex-col gap-8">
         <h1 className="text-7xl font-bold">{game.challenge}</h1>
         <div>
-          <button
-            className="btn"
-            onClick={() => {
-              updateGame(
-                game.id,
-                _.sampleSize(challenges, 1)[0],
-                (game: any) => {
-                  console.log("updateGame", game);
-                  setGame(game);
-                }
-              );
-            }}
-          >
+          <button className="btn" onClick={() => updateGame(game)}>
             Re-roll
           </button>
         </div>

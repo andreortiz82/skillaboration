@@ -5,6 +5,7 @@ import {
   userSignOut,
   checkAuthState,
   createNewGame,
+  updateGame,
 } from "../firebase/client";
 
 import { Header } from "./Shared";
